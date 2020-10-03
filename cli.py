@@ -39,15 +39,21 @@ def prompt(con):
         while(1):
             tmp = sp.call('clear', shell=True)
 
-            # print all our options here
-            print("1. Do something here")
-            print("2. Logout")
+            # print the options
+            for (index, option) in enumerate(options.switcher.items()):
+                print("{index}.  {option}".format(index = index + 1, option = option[1][1]))
+            print("{index}.  Logout".format(index = index + 2))
+
             ch = int(input("Enter your choice> "))
             tmp = sp.call('clear', shell=True)
             if ch == 2:
                 return
             else:
-                print("Operation Complete.\n")
                 # Handle the option select
-                options.do_job(ch)
+                status = options.do_job(ch)
+
+                if status is not False:
+                    print("\nOperation Complete.")
+                else:
+                    print("")
                 tmp = input("Enter any key to continue...")
