@@ -44,10 +44,10 @@ def prompt(con):
             print("2. Logout")
             ch = int(input("Enter your choice> "))
             tmp = sp.call('clear', shell=True)
-            if ch == 5:
+            if ch == 2:
                 return
             else:
-                print("Operation Complete.")
+                print("Operation Complete.\n")
                 # Handle the option select
                 options.do_job(ch)
                 tmp = input("Enter any key to continue...")
