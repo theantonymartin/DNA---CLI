@@ -1,50 +1,53 @@
-import subprocess as sp
 import pymysql
 import pymysql.cursors
+import subprocess as sp
+import sys
+import time
+import options
 
+def connect_db(tries):
+    for tryindex in range(tries):
+        print("Connecting to Database. Try " + str(tryindex + 1) + "...")
+        try:
+            con = pymysql.connect(host='sql12.freemysqlhosting.net',
+                                user="sql12368514",
+                                password="larZ24F2qN",
+                                db='sql12368514',
+                                cursorclass=pymysql.cursors.DictCursor)
+            tmp = sp.call('clear', shell=True)
 
-def dispatch(ch):
-    """
-    Function that maps helper functions to option entered
-    """
+            if(con.open):
+                print("Connected to the Database.")
+            else:
+                print("Failed to connect. Exiting now...")
+                sys.exit(1)
 
-# CLI Loop
-while(1):
-    tmp = sp.call('clear', shell=True)
+            tmp = input("Enter any key to continue...")
 
-    try:
-        con = pymysql.connect(host='sql12.freemysqlhosting.net',
-                              user="sql12368514",
-                              password="larZ24F2qN",
-                              db='sql12368514',
-                              cursorclass=pymysql.cursors.DictCursor)
-        tmp = sp.call('clear', shell=True)
+            return con
 
-        if(con.open):
-            print("Connected to the Database.")
-        else:
-            print("Failed to connect.)
+        except:
+            tmp = sp.call('clear', shell=True)
+            print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
+            if (tryindex != tries - 1):
+                print("Now retrying...")
+                time.sleep(0.5)
+    return None
 
-        tmp = input("Enter any key to CONTINUE>")
+def prompt(con):
+    with con.cursor() as cur:
+        while(1):
+            tmp = sp.call('clear', shell=True)
 
-        with con.cursor() as cur:
-            while(1):
-                tmp = sp.call('clear', shell=True)
-                # Here taking example of Employee Mini-world
-                print("1. Option 1")  # Hire an Employee
-                print("2. Option 2")  # Fire an Employee
-                print("3. Option 3")  # Promote Employee
-                print("4. Option 4")  # Employee Statistics
-                print("5. Logout")
-                ch = int(input("Enter choice> "))
-                tmp = sp.call('clear', shell=True)
-                if ch == 5:
-                    break
-                else:
-                    dispatch(ch)
-                    tmp = input("Enter any key to CONTINUE>")
-
-    except:
-        tmp = sp.call('clear', shell=True)
-        print("Connection Refused: Either username or password is incorrect or user doesn't have access to database")
-        tmp = input("Enter any key to CONTINUE>")
+            # print all our options here
+            print("1. Do something here")
+            print("2. Logout")
+            ch = int(input("Enter your choice> "))
+            tmp = sp.call('clear', shell=True)
+            if ch == 5:
+                return
+            else:
+                print("Operation Complete.")
+                # Handle the option select
+                options.do_job(ch)
+                tmp = input("Enter any key to continue...")
