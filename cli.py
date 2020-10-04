@@ -50,7 +50,7 @@ def prompt(con):
                 return
             else:
                 # Handle the option select
-                status = options.do_job(ch)
+                status = options.do_job(ch, cur, con)
 
                 if status is not False:
                     print("\nOperation Complete.")

@@ -2,7 +2,7 @@
 
 To run the Command Line Interface to the System. Go to the directory where you have cloned this repository and run,
 
-```
+```bash
 python3 -t 10
 ```
 
@@ -14,7 +14,8 @@ Create a function for the same in the `options.py` file.
 Let's say you want to create a function named `option1` as follows:
 
 ```python3
-def option1():
+# It is highly important that you take cursor and connection as inputs to any function that you define.
+def option1(cursor, connection):
     print("Hi! You are at option 1")
     # Add any code here to perform the needed operation
     if success:
